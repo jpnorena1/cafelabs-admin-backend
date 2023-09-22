@@ -1,12 +1,14 @@
 const express = require('express');
 const mongoose = require('./config/db'); // Importa la configuración de la conexión a la base de datos
 const productoRoutes = require('./routes/productoRoutes'); // Importa las rutas de productos
+const ventaRoutes = require('./routes/ventaRoutes');
 const app = express();
 
 app.use(express.json());
 
 // Configuración de rutas
 app.use('/productos', productoRoutes);
+app.use('/ventas', ventaRoutes); 
 
 // Inicia el servidor
 const port = process.env.PORT || 3000;
