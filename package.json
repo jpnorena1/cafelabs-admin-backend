@@ -4,7 +4,8 @@
   "description": "implementacion backend de desarrollo de crear, actualizar y eliminar productos con su respectiva clasificacion; los productos que se venden tienen la clasificacion de medio de pago,un inventario de cuantos productos se encuentran en stock y cuandos se vendieron tambien al realizar la compra se debe visualizar el clima actual del lugar",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "generate-swagger": "swagger-jsdoc -d ./swagger -o ./swagger.json"
   },
   "repository": {
     "type": "git",
@@ -15,6 +16,8 @@
   "dependencies": {
     "body-parser": "^1.20.2",
     "express": "^4.18.2",
-    "mongoose": "^7.5.2"
+    "mongoose": "^7.5.2",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.0"
   }
 }

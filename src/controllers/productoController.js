@@ -31,13 +31,16 @@ exports.getProductoById = async (req, res) => {
 exports.createProducto = async (req, res) => {
   try {
     // Obtén los datos del producto del cuerpo de la solicitud
-    const { nombre, descripcion } = req.body;
+    const { nombre, descripcion,precio, stock, cantidadVendida } = req.body;
 
     // Crea una nueva instancia del modelo Producto
 
     const nuevoProducto = new Producto({
       nombre,
       descripcion,
+      precio,
+      stock,
+      cantidadVendida
     });
 
     // Guarda el nuevo producto en la base de datos

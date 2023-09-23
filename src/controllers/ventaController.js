@@ -33,11 +33,8 @@ exports.obtenerDetallesDeVenta = async (req, res) => {
 // Controlador para registrar una nueva venta
 exports.registrarVenta = async (req, res) => {
   const { productos, medioPago } = req.body;
+
   try {
-    const clima = await climaService.obtenerClima();
-    const destructureClima= clima.convertString;
-    //console.log(clima.convertInt);
-    //console.log(clima);
     // Verifica que haya productos en la venta
     if (!productos || productos.length === 0) {
       return res.status(400).json({ error: 'La venta debe contener al menos un producto' });
@@ -55,7 +52,6 @@ exports.registrarVenta = async (req, res) => {
 
       let producto = await Producto.findById(_id);
 
-      
       if (!producto) {
         return res.status(404).json({ error: `Producto con ID ${_id} no encontrado` });
       }
@@ -76,22 +72,36 @@ exports.registrarVenta = async (req, res) => {
         cantidad,
         subtotal,
       });
-      //console.log(`Producto: ${producto.nombre}, Precio: ${producto.precio}, Cantidad: ${cantidad}, Subtotal: ${subtotal}`);
+
+      // Actualiza la cantidad vendida del producto
+      producto.cantidadVendida += cantidad;
+      producto.stock -= cantidad;
+
+      // Guarda el producto actualizado en la base de datos
+      await producto.save();
     }
+
     if (!isNaN(totalVenta) && nuevaVenta) {
       nuevaVenta.total = totalVenta;
     } else {
       nuevaVenta.total = 0;
     }
-    //console.log(`Total de la venta calculado: ${totalVenta}`); 
-    
-    
+
     // Llama a la función para obtener el clima
+
+    const clima = await climaService.obtenerClima();
+    const destructureClima=clima.convertString;
+
+
     await nuevaVenta.save();
 
-    res.status(201).json({ mensaje: 'Venta registrada con éxito', venta: nuevaVenta, temperaturaGrados:`${destructureClima}°`});
+    res.status(201).json({
+      mensaje: 'Venta registrada con éxito',
+      venta: nuevaVenta,
+      temperaturaGrados: `${destructureClima}°C`,
+    });
   } catch (error) {
-    console.error(error); 
-    res.status(500).json({ error: 'Hubo un error al registrar la venta'});
+    console.error(error);
+    res.status(500).json({ error: 'Hubo un error al registrar la venta' });
   }
 };
