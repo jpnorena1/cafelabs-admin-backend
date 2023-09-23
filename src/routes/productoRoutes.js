@@ -152,9 +152,82 @@ router.put('/:id', productoController.updateProducto);
 
 // Ruta para eliminar un producto por su ID
 router.delete('/:id', productoController.deleteProducto);
-
+/**
+ * @swagger
+ * /productos/por-clasificacion/{clasificacion}:
+ *   get:
+ *     summary: Obtiene productos por clasificación
+ *     parameters:
+ *       - name: clasificacion
+ *         in: path
+ *         required: true
+ *         description: Clasificación de los productos a obtener
+ *         schema:
+ *           type: string
+ *     responses:
+ *       '200':
+ *         description: Respuesta exitosa
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Producto'
+ *       '404':
+ *         description: No se encontraron productos para la clasificación especificada
+ *       '500':
+ *         description: Hubo un error al obtener los productos por clasificación
+ */
  // Ruta para obtener productos por clasificación
 router.get('/por-clasificacion/:clasificacion', productoController.getProductosPorClasificacion);
+/**
+ * @swagger
+ * /productos/registrar-venta:
+ *   post:
+ *     summary: Registra una nueva venta con clasificación por medio de pago
+ *     requestBody:
+ *       description: Datos de la venta a registrar
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               productos:
+ *                 type: array
+ *                 items:
+ *                   type: object
+ *                   properties:
+ *                     _id:
+ *                       type: string
+ *                     cantidad:
+ *                       type: integer
+ *               medioPago:
+ *                 type: string
+ *     responses:
+ *       '201':
+ *         description: Venta registrada exitosamente
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 mensaje:
+ *                   type: string
+ *                 venta:
+ *                   type: object
+ *                   properties:
+ *                     // Propiedades de la venta registrada
+ *                 temperaturaGrados:
+ *                   type: string
+ *       '400':
+ *         description: Error en la solicitud de venta
+ *       '404':
+ *         description: No se encontraron productos para la venta
+ *       '500':
+ *         description: Hubo un error al registrar la venta
+ */
+
 
 // Ruta para registrar una venta con clasificación por medio de pago
 router.post('/registrar-venta', ventaController.registrarVenta);
