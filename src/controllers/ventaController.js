@@ -1,12 +1,12 @@
 const Venta = require('../models/venta'); // Importa el modelo de Venta
 const Producto = require('../models/producto'); // Importa el modelo de Producto (si es necesario)
-
-
-
+const climaService = require('../utils/utils'); 
 
 // Controlador para obtener todas las ventas
 exports.obtenerTodasLasVentas = async (req, res) => {
   try {
+  
+   
     const ventas = await Venta.find(); // Obtiene todas las ventas desde la base de datos
     res.status(200).json(ventas); // Responde con la lista de ventas
   } catch (error) {
@@ -33,6 +33,10 @@ exports.obtenerDetallesDeVenta = async (req, res) => {
 exports.registrarVenta = async (req, res) => {
   const { productos, medioPago } = req.body;
   try {
+    const clima = await climaService.obtenerClima();
+    const destructureClima= clima.convertString;
+    //console.log(clima.convertInt);
+    //console.log(clima);
     // Verifica que haya productos en la venta
     if (!productos || productos.length === 0) {
       return res.status(400).json({ error: 'La venta debe contener al menos un producto' });
@@ -78,17 +82,16 @@ exports.registrarVenta = async (req, res) => {
     } else {
       nuevaVenta.total = 0;
     }
-    //console.log(`Total de la venta calculado: ${totalVenta}`); // Agrega esta línea
-
-
+    //console.log(`Total de la venta calculado: ${totalVenta}`); 
     
-
+    
+    // Llama a la función para obtener el clima
     await nuevaVenta.save();
 
-    res.status(201).json({ mensaje: 'Venta registrada con éxito', venta: nuevaVenta });
+    res.status(201).json({ mensaje: 'Venta registrada con éxito', venta: nuevaVenta, temperaturaGrados:`${destructureClima}°`});
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Hubo un error al registrar la venta' });
+    console.error(error); 
+    res.status(500).json({ error: 'Hubo un error al registrar la venta'});
   }
 };
 
