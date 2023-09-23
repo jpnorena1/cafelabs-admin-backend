@@ -119,3 +119,39 @@ exports.getProductosPorClasificacion = async (req, res) => {
   }
 };
 
+// Controlador para obtener el inventario de productos
+exports.obtenerInventario = async (req, res) => {
+  try {
+    const productos = await Producto.find();
+    
+    //Calcular el inventario
+    const inventario = productos.map((producto) => ({
+      _id: producto._id,
+      nombre: producto.nombre,
+      stock: producto.stock,
+      cantidadVendida: producto.cantidadVendida,
+    }));
+
+    res.status(200).json(inventario);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Hubo un error al obtener el inventario' });
+  }
+  /*
+  try {
+    const { nombre } = req.query; // Obtiene el nombre de búsqueda de los parámetros de consulta
+    
+    // Realiza la búsqueda en la base de datos utilizando Mongoose
+    const productos = await Producto.find({ nombre: nombre});
+
+    if (productos.length === 0) {
+      return res.status(404).json({ error: 'No se encontraron productos con ese nombre.' });
+    }
+
+    res.status(200).json(productos);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Hubo un error al buscar productos por nombre.' });
+  }
+  */
+};

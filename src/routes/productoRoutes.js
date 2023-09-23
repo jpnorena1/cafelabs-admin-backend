@@ -5,6 +5,22 @@ const ventaController = require('../controllers/ventaController');
 
 /**
  * @swagger
+ * /productos/inventario:
+ *   get:
+ *     summary: Obtiene el inventario de productos
+ *     responses:
+ *       '200':
+ *         description: Respuesta exitosa
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ */
+// Ruta para obtener el inventario de productos
+router.get('/inventario', productoController.obtenerInventario);
+
+/**
+ * @swagger
  * /productos:
  *   get:
  *     summary: Obtiene todos los productos
@@ -231,6 +247,7 @@ router.get('/por-clasificacion/:clasificacion', productoController.getProductosP
 
 // Ruta para registrar una venta con clasificación por medio de pago
 router.post('/registrar-venta', ventaController.registrarVenta);
+
 
 
 module.exports = router;
