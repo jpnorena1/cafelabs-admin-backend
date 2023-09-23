@@ -30,6 +30,7 @@ exports.obtenerDetallesDeVenta = async (req, res) => {
   }
 };
 // Controlador para registrar una nueva venta
+// Controlador para registrar una nueva venta
 exports.registrarVenta = async (req, res) => {
   const { productos, medioPago } = req.body;
   try {
@@ -94,5 +95,3 @@ exports.registrarVenta = async (req, res) => {
     res.status(500).json({ error: 'Hubo un error al registrar la venta'});
   }
 };
-
-
