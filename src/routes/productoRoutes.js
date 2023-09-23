@@ -58,25 +58,14 @@ router.get('/:id', productoController.getProductoById);
  *             properties:
  *               nombre:
  *                 type: string
- *                 description: Nombre del producto
  *               descripcion:
  *                 type: string
- *                 description: Descripción del producto
  *               precio:
  *                 type: number
- *                 description: Precio del producto
  *               stock:
- *                 type: integer
- *                 description: Cantidad en stock del producto
+ *                 type: number
  *               cantidadVendida:
- *                 type: integer
- *                 description: Cantidad vendida del producto
- *             required:
- *               - nombre
- *               - descripcion
- *               - precio
- *               - stock
- *               - cantidadVendida
+ *                 type: number
  *     responses:
  *       '201':
  *         description: Producto creado exitosamente
@@ -87,29 +76,79 @@ router.get('/:id', productoController.getProductoById);
  *               properties:
  *                 nombre:
  *                   type: string
- *                   description: Nombre del producto creado
  *                 descripcion:
  *                   type: string
- *                   description: Descripción del producto creado
  *                 precio:
  *                   type: number
- *                   description: Precio del producto creado
  *                 stock:
- *                   type: integer
- *                   description: Cantidad en stock del producto creado
+ *                   type: number
  *                 cantidadVendida:
- *                   type: integer
- *                   description: Cantidad vendida del producto creado
- *       '400':
- *         description: Error en la solicitud
+ *                   type: number
  */
-
 // Ruta para crear un nuevo producto
 router.post('/crearProducto', productoController.createProducto);
 
-
+/**
+ * @swagger
+ * /productos/{id}:
+ *   put:
+ *     summary: Actualiza un producto por su ID
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         description: ID del producto
+ *         schema:
+ *           type: string
+ *     requestBody:
+ *       description: Datos actualizados del producto
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               nombre:
+ *                 type: string
+ *               descripcion:
+ *                 type: string
+ *               precio:
+ *                 type: number
+ *               stock:
+ *                 type: number
+ *               cantidadVendida:
+ *                 type: number
+ *     responses:
+ *       '200':
+ *         description: Producto actualizado exitosamente
+ *       '404':
+ *         description: Producto no encontrado
+ *       '500':
+ *         description: Hubo un error al actualizar el producto
+ */
 // Ruta para actualizar un producto por su ID
 router.put('/:id', productoController.updateProducto);
+
+/**
+ * @swagger
+ * /productos/{id}:
+ *   delete:
+ *     summary: Elimina un producto por su ID
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         description: ID del producto a eliminar
+ *         schema:
+ *           type: string
+ *     responses:
+ *       '204':
+ *         description: Producto eliminado exitosamente
+ *       '404':
+ *         description: Producto no encontrado
+ *       '500':
+ *         description: Hubo un error al eliminar el producto
+ */
 
 // Ruta para eliminar un producto por su ID
 router.delete('/:id', productoController.deleteProducto);

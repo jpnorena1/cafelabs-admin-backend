@@ -10,7 +10,7 @@ const swaggerOptions = {
   swaggerDefinition: {
     info: {
       title: 'cafelabs-adm-backend', // Reemplaza con el nombre de tu API
-      version: '3.0.0', // Reemplaza con la versión de tu API
+      version: '3.1.0', // Reemplaza con la versión de tu API
       description: 'Documentación de la API de Cafelabs', // Reemplaza con la descripción de tu API
     },
      // Configuración del servidor y rutas
