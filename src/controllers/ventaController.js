@@ -31,7 +31,65 @@ exports.obtenerDetallesDeVenta = async (req, res) => {
 };
 // Controlador para registrar una nueva venta
 exports.registrarVenta = async (req, res) => {
- 
+  const { productos, medioPago } = req.body;
+  try {
+    // Verifica que haya productos en la venta
+    if (!productos || productos.length === 0) {
+      return res.status(400).json({ error: 'La venta debe contener al menos un producto' });
+    }
+
+    let totalVenta = 0;
+    let nuevaVenta;
+
+    for (const productoVenta of productos) {
+      const { _id, cantidad } = productoVenta;
+
+      if (isNaN(cantidad) || cantidad <= 0) {
+        return res.status(400).json({ error: 'Cantidad de producto no válida' });
+      }
+
+      let producto = await Producto.findById(_id);
+
+      
+      if (!producto) {
+        return res.status(404).json({ error: `Producto con ID ${_id} no encontrado` });
+      }
+
+      const subtotal = producto.precio * cantidad;
+      totalVenta += subtotal;
+
+      if (!nuevaVenta) {
+        nuevaVenta = new Venta({
+          productos: [],
+          medioPago,
+          total: 0,
+        });
+      }
+
+      nuevaVenta.productos.push({
+        producto: _id,
+        cantidad,
+        subtotal,
+      });
+      //console.log(`Producto: ${producto.nombre}, Precio: ${producto.precio}, Cantidad: ${cantidad}, Subtotal: ${subtotal}`);
+    }
+    if (!isNaN(totalVenta) && nuevaVenta) {
+      nuevaVenta.total = totalVenta;
+    } else {
+      nuevaVenta.total = 0;
+    }
+    //console.log(`Total de la venta calculado: ${totalVenta}`); // Agrega esta línea
+
+
+    
+
+    await nuevaVenta.save();
+
+    res.status(201).json({ mensaje: 'Venta registrada con éxito', venta: nuevaVenta });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Hubo un error al registrar la venta' });
+  }
 };
 
 
