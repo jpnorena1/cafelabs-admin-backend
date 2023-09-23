@@ -1,6 +1,7 @@
   const mongoose = require('mongoose');
 
   const ventaSchema = new mongoose.Schema({
+    _id: mongoose.Schema.Types.ObjectId,
     fecha: {
       type: Date,
       default: Date.now, // Fecha de la venta (por defecto, la fecha actual)

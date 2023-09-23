@@ -15,21 +15,26 @@ exports.obtenerTodasLasVentas = async (req, res) => {
   }
 };
 
-// Controlador para obtener detalles de una venta por su ID
 exports.obtenerDetallesDeVenta = async (req, res) => {
   const { id } = req.params; // Obtiene el ID de la venta desde los parámetros de la URL
+
   try {
-    const venta = await Venta.findOne({ _id: ventaId, 'productos.productoId': _id });
+    // Busca la venta por su ID en la base de datos
+    const venta = await Venta.findById(id);
+
+    /* Si la venta no se encuentra, responde con un estado 404 (No encontrado)
     if (!venta) {
       return res.status(404).json({ error: 'Venta no encontrada' });
-    }
-    res.status(200).json(venta); // Responde con los detalles de la venta encontrada
+    }*/
+
+    // Responde con los detalles de la venta encontrada
+    res.status(200).json(venta);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Hubo un error al obtener los detalles de la venta' });
   }
 };
-// Controlador para registrar una nueva venta
+
 // Controlador para registrar una nueva venta
 exports.registrarVenta = async (req, res) => {
   const { productos, medioPago } = req.body;
